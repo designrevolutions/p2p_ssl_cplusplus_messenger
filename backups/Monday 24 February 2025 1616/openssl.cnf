@@ -1,0 +1,14 @@
+[ req ]
+default_bits       = 2048
+default_keyfile    = private.key
+distinguished_name = Design Revolutions
+prompt             = no
+
+[ req_distinguished_name ]
+C            = UK
+ST           = London
+L            = Hornchurch
+O            = DesignRev
+OU           = IT
+CN           = my_localhost
+emailAddress = o@designrevolutions.com

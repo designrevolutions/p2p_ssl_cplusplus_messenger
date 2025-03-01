@@ -1,0 +1,5 @@
+Moved here: G:\My Drive\C++\Capstone Project
+
+So I have a cloud backup
+
+Only moving source code here and not exe files
