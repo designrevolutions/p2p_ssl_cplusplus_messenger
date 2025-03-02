@@ -108,12 +108,35 @@ private:
                                     {
                                         if (!ec)
                                         {
+                                            /* Sunday 02 March 2025 0035
                                             // We print the data that was received from the client.
                                             // TODO - add the name of the client to the message.
                                             std::cout << "Received message: " << std::string(data_, length) << std::endl;
 
                                             broadcast(length);
                                             read();
+                                            */
+
+                                            // ---------------------------------- //
+                                            // Added Sunday 02 March 2025 0039
+                                            if (!ec)
+                                            {
+                                                if (client_name_.empty()) // Name hasn't been set yet
+                                                {
+                                                    client_name_ = std::string(data_, length);
+                                                    std::cout << "Client name received: " << client_name_ << std::endl;
+                                                    std::cout << "Welcome " << client_name_ << std::endl << std::endl;
+                                                }
+                                                else
+                                                {
+                                                    std::cout << "[" << client_name_ << "]: " << std::string(data_, length) << std::endl;
+                                                    broadcast(length);
+                                                }
+                                                read();
+                                            }
+                                            // ---------------------------------- //
+
+                                            
                                         }
                                         else
                                         {
@@ -131,6 +154,9 @@ private:
     // The write function is an asynchronous function that writes data to the SSL socket.
     // I asked why we need to pass length and why we can't use max_length - the answer is that we need to pass the length of the data that we want to write.
     // So for example, if we wrtie "Hello", that is 5 characters long - so we need to pass 5 as the length.
+
+    /* Sunday 02 March 2025 0048 - in the newer version, I add the clients name when they send a message. */
+    /*
     void broadcast(std::size_t length)
     {
         for (auto &session : sessions_)
@@ -143,6 +169,23 @@ private:
             }
         }
     }
+    */
+
+    // This new version of the broadcast function adds the name of the client to the message.
+    void broadcast(std::size_t length)
+    {
+        std::string formatted_message = client_name_ + ": " + std::string(data_, length);
+    
+        for (auto &session : sessions_)
+        {
+            // If the session is not the current session, write the formatted message to the session.
+            if (session != shared_from_this())
+            {
+                session->write(formatted_message.c_str(), formatted_message.size());
+            }
+        }
+    }
+    
 
     // Damn this VSCode is good - it's really good - I'm loving it - it's so good - it's really AWESOME! 😎
 
@@ -189,6 +232,9 @@ private:
     // This is a vector that holds all the sessions that are currently connected to the server.
     // Theoretically, this vector should hold all the sessions that are currently connected to the server.
     std::vector<std::shared_ptr<Session>> &sessions_;
+
+    std::string client_name_; // Sunday 02 March 2025 0033 - I need to store the name of the client - this is a bit of a hack I think, I would prefer to pass in as an object
+
 };
 
 // We create a server class.

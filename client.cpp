@@ -56,7 +56,8 @@ void read_from_server(boost::asio::ssl::stream<tcp::socket> &ssl_socket)
             // We print the data that was received from the server.
             // TODO - add the name of the client to the message.
             // To print in colour, we have to use in the format given below. I'll change this when I do the GUI version.
-            std::cout << colour << "Received message: ";
+            // std::cout << colour << "Received message: ";
+            std::cout << colour;
             std::cout.write(reply, reply_length);
             std::cout << reset << "\n";
         }
@@ -70,7 +71,8 @@ void read_from_server(boost::asio::ssl::stream<tcp::socket> &ssl_socket)
 // This function is the client function that connects to the server
 // It takes the io_context object, the ssl_context object, the host name, and the port number as arguments.
 // I didn't make a class for the client because it's a simple client that connects to the server and sends messages.
-void client(boost::asio::io_context &io_context, boost::asio::ssl::context &ssl_context, const std::string &host, short port)
+// void client(boost::asio::io_context &io_context, boost::asio::ssl::context &ssl_context, const std::string &host, short port)
+void client(boost::asio::io_context &io_context, boost::asio::ssl::context &ssl_context, const std::string &host, short port, const std::string &name) // I need to send the name of the chat client, this is a bit of a hack I think, I would prefer to pass in as an object
 {
     // std::cout << "Client function has been called." << std::endl; // Used for debugging
 
@@ -124,6 +126,16 @@ void client(boost::asio::io_context &io_context, boost::asio::ssl::context &ssl_
             std::cerr << "Exception during SSL handshake: " << e.what() << std::endl;
         }
 
+        
+        // ---------------------------------- //
+        // Added Sunday 02 March 2025 0009 - I need to send the name of the chat client, this is a bit of a hack I think, I would prefer to pass in as an object
+        // We write the name to the server using the ssl_socket object. This is the first message that the server receives from the client. It reads in and stores the name of the client in a newly added variable. 
+        boost::asio::write(ssl_socket, boost::asio::buffer(name));
+        std::cout << "Name sent to server." << std::endl;
+        std::cout << std::endl << std::endl;
+        // ---------------------------------- //
+
+
         // We create a thread that reads data from the server.
         // The thread is detached so that it runs independently of the main thread.
         // read_from_server(ssl_socket) - this is the fn we made above - above, we got the ssl_socket.
@@ -145,7 +157,7 @@ void client(boost::asio::io_context &io_context, boost::asio::ssl::context &ssl_
             boost::asio::write(ssl_socket, boost::asio::buffer(message));
 
             // std::cout << "Sent message: " << message << std::endl;
-            std::cout << "Message sent to server." << std::endl;
+            // std::cout << "Message sent to server." << std::endl; // Sunday 02 March 2025 0058 Don't need to print this message - it's not needed.
         }
         // I asked ChatGPT why this loop wasn't detached like the one above. The answer was that the loop involves a cin - this in int's nature is a blocking fn. Trying to detach would apparently cause a lot of complexity. If cin where not involved and something else happend that didn't use somehing similar to cin, then detaching would maybe OK to do. I left it there.
     }
@@ -179,6 +191,16 @@ int main(int argc, char *argv[])
 
     std::string ip_address;
     std::string port_number;
+    
+    // ---------------------------------- //
+    // Added Sunday 02 March 2025 0009
+    std::string name;
+
+    std::cout << "Please enter your name:" << std::endl;
+    std::cin >> name;
+
+    std::cout << std::endl << std::endl;
+    // ---------------------------------- //
 
     std::cout << "Please enter the IP address of the server you want to connect to:" << std::endl << std::endl;
     std::cin >> ip_address;
@@ -220,7 +242,8 @@ int main(int argc, char *argv[])
 
     // We call the client function with the io_context object, the ssl_context object, the host name, and the port number.
     // client(io_context, ssl_context, argv[1], std::atoi(argv[2]));
-    client(io_context, ssl_context, ip_address, std::stoi(port_number));
+    // client(io_context, ssl_context, ip_address, std::stoi(port_number)); Sunday 02 March 2025 0030
+    client(io_context, ssl_context, ip_address, std::stoi(port_number), name);
 
     return 0;
 }
