@@ -130,10 +130,16 @@ void client(boost::asio::io_context &io_context, boost::asio::ssl::context &ssl_
         // Added Sunday 02 March 2025 0009 - I need to send the name of the chat client, this is a bit of a hack I think, I would prefer to pass in as an object
         // We write the name to the server using the ssl_socket object. This is the first message that the server receives from the client. It reads in and stores the name of the client in a newly added variable.
         boost::asio::write(ssl_socket, boost::asio::buffer(name));
-        std::cout << "Name sent to server." << std::endl;
+
+        // I decided not to output this message - it's not needed. I'll remove in later version.
+        // std::cout << "Name sent to server." << std::endl;
+        // std::cout << std::endl
+        //           << std::endl;
+        // ---------------------------------- //
+
+        std::cout << "Connected to server, ready to send and receive messages." << std::endl;
         std::cout << std::endl
                   << std::endl;
-        // ---------------------------------- //
 
         // We create a thread that reads data from the server.
         // The thread is detached so that it runs independently of the main thread.

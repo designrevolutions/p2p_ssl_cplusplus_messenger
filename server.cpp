@@ -395,11 +395,11 @@ Feedback from Fowsi:
 
 When client starts: ask for name
 
-Once server starts: what's it doing? Add message saying: Awaiting for clients
+Once server starts: what's it doing? Add message saying: Awaiting for clients ✔️ 
 
 SSL - use Open SSL ✔️ 
 
-Add Github repositiry ❌ 
+Add Github repositiry ✔️ 
 
 Make youtube video going through the code
 
@@ -410,15 +410,16 @@ Need to give messages like: estalibslihed Open SSL
 /*
 Need to do:
 
-- Get SSL working
+- Get SSL working ✔️ 
 - Split code into multiple files and organise
-- Rewrite all code and understand every single part
-- Add keywords to exit the server and client
+- Rewrite all code and understand every single part ✔️ 
+- Add keywords to exit the server and client ❌ Will do later
 - Add a way for clients to choose color?
 - Get colour coding
 - Put code into one code set - so the code can be run using one command - like 'cpp_p2p.exe then ading a flag to say if it's a server or client.
 - Add more advanced features
 - Make a GUI version of the code
+- Add ability to send files - MUST MUST get this done ASAP
 
 */
 
@@ -435,7 +436,7 @@ Install OpenSSL:
 - MSYS2: openssl pkcs12 -export -out server.pfx -inkey private.key -in server.crt (now you get a file called server.pfx) (Not sure what this is - VS Code says it's a PKCS #12 file - but I don't know what that is)
 
 #########
-VS Code gave me this:
+VS Code gave me this (this I didn't do, I thought I would leave the comment incase I wanted to do it later):
 
 I made a file called openssl.bat with the following content:
 
@@ -569,6 +570,7 @@ Can add an option if the server should accept new clients or not.
 TODO:
 
 How can we add emjois to the code?
+Need to change the alphabet to include emojis.
 
 */
 
@@ -593,5 +595,13 @@ We can block on IP address and/or name.
 
 /*
 TODO: assign a different colour to each client. So if we have 5 people chatting, then each person has a different colour.
+
+Currently code has been added so that we have green olive colour for others who are chatting. This is a good start.
+
+*/
+
+/*
+TODO:
+Need to have some basic error checking of user input for host and port number and even name.
 
 */
