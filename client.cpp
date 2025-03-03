@@ -126,15 +126,14 @@ void client(boost::asio::io_context &io_context, boost::asio::ssl::context &ssl_
             std::cerr << "Exception during SSL handshake: " << e.what() << std::endl;
         }
 
-        
         // ---------------------------------- //
         // Added Sunday 02 March 2025 0009 - I need to send the name of the chat client, this is a bit of a hack I think, I would prefer to pass in as an object
-        // We write the name to the server using the ssl_socket object. This is the first message that the server receives from the client. It reads in and stores the name of the client in a newly added variable. 
+        // We write the name to the server using the ssl_socket object. This is the first message that the server receives from the client. It reads in and stores the name of the client in a newly added variable.
         boost::asio::write(ssl_socket, boost::asio::buffer(name));
         std::cout << "Name sent to server." << std::endl;
-        std::cout << std::endl << std::endl;
+        std::cout << std::endl
+                  << std::endl;
         // ---------------------------------- //
-
 
         // We create a thread that reads data from the server.
         // The thread is detached so that it runs independently of the main thread.
@@ -170,57 +169,72 @@ void client(boost::asio::io_context &io_context, boost::asio::ssl::context &ssl_
 
 int main(int argc, char *argv[])
 {
+    // argc is the number of arguments passed in - this includes the file name itself
 
-    /*
+    // I changed the code so it can be called just by typing:
+    // ./client - this will prompt the user to enter the IP address, port number and name.
+    // or... they can supply the 3 arguments on the command line. This saves loads of time when testing.
+    // ./client <ip_address> <port_number> <name> - this will run the code with the IP address, port number and name passed in as arguments.
 
-    // We check if we have called the function with the correct number of arguments.
-    if (argc != 3)
-    {
-        std::cerr << "Usage example: " << "client" << " <host> <port>\n"
-                  << "Or:" << "client" << " localhost 12345\n"
-                  << "Or:" << "client" << " 180.1.2.3 45678\n";
-        // TODO: replace "client" with argv[0] and strip the string and give just the file name with no exe. Not essential, but would be nice to do with Regex.
-        return 1;
-    }
-
-    */
-
-    // ---------------------------------- //
-
-    std::cout << "Welcome to the C++ messaging system coded with Boost ASIO using SSL/TLS" << std::endl << std::endl;
+    int arguements_passed_in = argc - 1;
 
     std::string ip_address;
     std::string port_number;
-    
-    // ---------------------------------- //
-    // Added Sunday 02 March 2025 0009
     std::string name;
 
-    std::cout << "Please enter your name:" << std::endl;
-    std::cin >> name;
+    if (arguements_passed_in == 0) // Now we run the code and ask the user to give inputs
+    {
+        // std::cout << "No arguments passed in." << std::endl;
 
-    std::cout << std::endl << std::endl;
+        std::cout << "Welcome to the C++ messaging system coded with Boost ASIO using SSL/TLS" << std::endl
+                  << std::endl;
+
+        std::cout << "Please enter your name:" << std::endl;
+        std::cin >> name;
+
+        std::cout << std::endl
+                  << std::endl;
+
+        std::cout << "Please enter the IP address of the server you want to connect to:" << std::endl
+                  << std::endl;
+        std::cin >> ip_address;
+
+        std::cout << std::endl
+                  << std::endl;
+
+        std::cout << "Please enter the port number of the server you want to connect to:" << std::endl
+                  << std::endl;
+        std::cin >> port_number;
+
+        std::cout << std::endl
+                  << std::endl;
+        std::cout << "ip_address: " << ip_address;
+
+        std::cout << std::endl
+                  << std::endl;
+
+        std::cout << "port_number: " << port_number;
+
+        std::cout << std::endl
+                  << std::endl;
+        // ---------------------------------- //
+    }
+    else if (arguements_passed_in == 3)
+    {
+        // std::cout << "THREE arguments passed in." << std::endl;
+
+        ip_address = argv[1];
+        port_number = argv[2];
+        name = argv[3];
+    }
+    else
+    {
+        // The user has called the function incorrectly. We give instruction how to call.
+        std::cerr << "Usage: ./client <ip_address> <port_number> <name>\n";
+        return 1;
+    }
+
     // ---------------------------------- //
-
-    std::cout << "Please enter the IP address of the server you want to connect to:" << std::endl << std::endl;
-    std::cin >> ip_address;
-
-    std::cout << std::endl << std::endl;
-
-    std::cout << "Please enter the port number of the server you want to connect to:" << std::endl << std::endl;
-    std::cin >> port_number;
-
-    std::cout << std::endl << std::endl;
-    std::cout << "ip_address: " << ip_address;
-    
-    std::cout << std::endl << std::endl;
-
-    std::cout << "port_number: " << port_number;
-
-    std::cout << std::endl << std::endl;
-
-    // ---------------------------------- //
-
 
     // We create an io_context object. This object is used to manage the I/O services. It's the main big boss that runs the show 😎
     boost::asio::io_context io_context;

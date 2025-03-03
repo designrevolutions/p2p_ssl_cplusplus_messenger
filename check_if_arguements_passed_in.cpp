@@ -5,7 +5,6 @@
 int main(int argc, char *argv[])
 {
     // argc is the number of arguments passed in - this includes the file name itself
-
     std::cout << "Number of arguments passed: " << argc - 1 << std::endl;
     std::cout << std::endl
               << std::endl;
