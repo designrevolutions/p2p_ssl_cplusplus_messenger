@@ -408,6 +408,19 @@ Need to give messages like: estalibslihed Open SSL
 */
 
 /*
+TODO: Add messages saying Boost ASIO being used?
+
+TODO: When someone joins, we can give them a list of names in the chat room
+
+TODO: When someone joins, we can send a message to the existing clients saying that the new name has joined
+
+These should be easy to do
+
+TODO: Ask Ai if the code can be made better and ask for critique
+
+*/
+
+/*
 Need to do:
 
 - Get SSL working ✔️ 
