@@ -55,6 +55,8 @@ private:
 
         for (const auto &session : sessions_) // I prefer &session instead of auto& session - but it's the same thing.
         {
+            // By calling ssl_socket_.lowest_layer(), you are retrieving the underlying tcp::socket object that the SSL stream is using for network communication.
+            // remote_endpoint(): It returns an object of type boost::asio::ip::tcp::endpoint, which contains both the IP address and the port number of the connected peer.
             std::cout << session->ssl_socket_.lowest_layer().remote_endpoint() << std::endl;
         }
 
