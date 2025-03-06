@@ -7,10 +7,12 @@ The code uses Boost ASIO.
 The core files are: 
 
 client.cpp
+
 server.cpp
+
 ssl_certification folder
 
-Everthing else is not needed and there for other purposes - like backup files I kep when developing on my laptop (previous to using Git and Github).
+Everthing else is not needed and there for other purposes - like backup files I kept when developing on my laptop (previous to using Git and Github).
 
 The code was developed in Visual Studio Code. Oh damn, that gave me so many problems. I'll try and document my troubles later.
 

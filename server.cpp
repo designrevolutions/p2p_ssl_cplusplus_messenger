@@ -429,7 +429,7 @@ Need to do:
 - Split code into multiple files and organise
 - Rewrite all code and understand every single part ✔️ 
 - Add keywords to exit the server and client ❌ Will do later
-- Add a way for clients to choose color?
+- Add a way for clients to choose colour?
 - Get colour coding
 - Put code into one code set - so the code can be run using one command - like 'cpp_p2p.exe then ading a flag to say if it's a server or client.
 - Add more advanced features
