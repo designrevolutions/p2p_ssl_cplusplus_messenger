@@ -38,7 +38,7 @@ Version 1:
 
 ./client
 
-You will now be prompted to answer questions where you give the host server IP address, port number and you name.
+You will now be prompted to answer questions where you give the host server IP address, port number and your name.
 
 Version 2:
 
